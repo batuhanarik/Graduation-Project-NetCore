@@ -28,7 +28,7 @@ namespace Business.Concrete
         [ValidationAspect(typeof(WeddingPlaceValidator))]
         public IResult Add(WeddingPlace weddingPlace)
         {
-            IResult result =BusinessRules.Run(CheckIfProductCountOfCategoryCorrect(weddingPlace.CategoryId), CheckIfWeddingPlaceNameExist(weddingPlace.PlaceName));
+            IResult result =BusinessRules.Run(CheckIfProductCountOfCategoryCorrect(weddingPlace.CategoryId), CheckIfWeddingPlaceNameExist(weddingPlace.PlaceName), CheckIfCategoryLimitExceded());
 
             if (result!=null)
             {
@@ -82,7 +82,7 @@ namespace Business.Concrete
             return new SuccessResult();
         }
         //Uydurma Kural
-        private IResult CheckIfCategoryLimitExceded(string weddingPlaceName)
+        private IResult CheckIfCategoryLimitExceded()
         {
             var result = _categoryService.GetAll();
             if (result.Data.Count>15)
