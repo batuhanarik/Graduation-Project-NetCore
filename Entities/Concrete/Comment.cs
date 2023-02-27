@@ -9,6 +9,7 @@ namespace Entities.Concrete
 {
     public class Comment
     {
+
         [Key]
         public int CommentId { get; set; }
         public int UserId { get; set; }

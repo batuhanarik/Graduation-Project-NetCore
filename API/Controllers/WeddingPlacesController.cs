@@ -49,5 +49,15 @@ namespace API.Controllers
             }
             return BadRequest(result.Message);
         }
+        [HttpPost("delete")]
+        public IActionResult Delete(WeddingPlace weddingPlace)
+        {
+            var result = _weddingPlaceService.Delete(weddingPlace);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
     }
 }

@@ -9,11 +9,7 @@ namespace ConsoleUI
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            var manager = new WeddingPlaceManager(new EfWeddingPlaceDal());
-            foreach (var item in manager.GetAll().Data)
-            {
-                Console.WriteLine(item.PlaceName + " "+item.Capacity);
-            }
+           
         }
 
     }

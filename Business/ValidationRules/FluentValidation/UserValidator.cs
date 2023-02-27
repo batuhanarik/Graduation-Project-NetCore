@@ -1,4 +1,5 @@
-﻿using Entities.Concrete;
+﻿using Core.Entities;
+using Entities.Concrete;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -16,17 +17,17 @@ namespace Business.ValidationRules.FluentValidation
             RuleFor(u => u.Name).NotEmpty();
             RuleFor(u => u.Name).MinimumLength(2);
 
-            RuleFor(u => u.Surname).NotEmpty();
-            RuleFor(u => u.Surname).MinimumLength(2);
+            RuleFor(u => u.LastName).NotEmpty();
+            RuleFor(u => u.LastName).MinimumLength(2);
 
             RuleFor(u => u.Mail).NotEmpty();
             RuleFor(u => u.Mail).MinimumLength(2);
             RuleFor(u => u.Mail).EmailAddress().WithMessage("Mail Adresi Doğru Formatta Olmalıdır.");
 
-            RuleFor(u => u.IsWeddingPlaceOwner).NotEmpty();
+            //RuleFor(u => u.IsWeddingPlaceOwner).NotEmpty();
 
-            RuleFor(u => u.PhoneNumber).NotEmpty();
-            RuleFor(u => u.PhoneNumber).Must(RegExPhoneNumber).WithMessage("Telefon Numarası Doğru Formatta Olmalıdır.");
+        //    RuleFor(u => u.PhoneNumber).NotEmpty();
+        //    RuleFor(u => u.PhoneNumber).Must(RegExPhoneNumber).WithMessage("Telefon Numarası Doğru Formatta Olmalıdır.");
         }
 
         private bool RegExPhoneNumber(string arg)

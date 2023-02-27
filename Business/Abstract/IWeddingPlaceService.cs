@@ -14,5 +14,6 @@ namespace Business.Abstract
         IDataResult<WeddingPlace> GetById(int id);
 
         IResult Add(WeddingPlace weddingPlace);
+        IResult Delete(WeddingPlace weddingPlace);
     }
 }

@@ -16,7 +16,6 @@ namespace Entities.Concrete
         public string PlateName { get; set; } //Edirne
         public string PhoneNumber { get; set; }
         public string Description { get; set; } //Mekan Açıklaması
-        public int PlaceTypeId { get; set; }
         public int Capacity { get; set; } //Kapasitesi
         public double PriceFirst{ get; set; }//Fiyat aralığı min.
         public double PriceLast{ get; set; } //Fiyat aralığı max.
@@ -24,13 +23,10 @@ namespace Entities.Concrete
         public int Discount_2 { get; set; }
         public int Discount_3 { get; set; }
         public int PlaceOwnerId{ get; set; } //Mekan sahibi user id'si.
-        public int PlacePhotoId { get; set; } //Mekan fotoğrafları
         public bool isReserved { get; set; } //Rezerve edildi mi?
         public bool isFoodIncluded { get; set; } //Yemekli mi?
         public bool isAlcoholIncluded { get; set; } //Alkollü mü?
         public bool PlaceStatus { get; set; } //Aktif mi pasif mi?
-        public Category Category { get; set; }
-        public PlaceType PlaceType { get; set; }
-        public WeddingPlaceImage WeddingPlaceImage { get; set; }
+        //public WeddingPlaceImage WeddingPlaceImage { get; set; }
     }
 }

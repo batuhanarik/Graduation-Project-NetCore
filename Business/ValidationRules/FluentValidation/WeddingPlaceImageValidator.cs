@@ -8,12 +8,11 @@ using System.Threading.Tasks;
 
 namespace Business.ValidationRules.FluentValidation
 {
-    public class PlaceTypeValidator : AbstractValidator<PlaceType>
+    public class WeddingPlaceImageValidator : AbstractValidator<WeddingPlaceImage>
     {
-        public PlaceTypeValidator()
+        public WeddingPlaceImageValidator()
         {
-            RuleFor(p => p.PlaceTypeName).NotNull();
-            RuleFor(p => p.PlaceTypeName).MinimumLength(3);
+            RuleFor(wpI=> wpI.WeddingPlaceId).NotEmpty();
         }
     }
 }

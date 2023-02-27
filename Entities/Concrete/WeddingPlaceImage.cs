@@ -12,7 +12,8 @@ namespace Entities.Concrete
     {
         [Key]
         public int PlacePhotoId { get; set; }
-        public int CarId { get; set; }
+        public int WeddingPlaceId { get; set; }
         public string ImagePath { get; set; }
+        public DateTime Date { get; set; }
     }
 }

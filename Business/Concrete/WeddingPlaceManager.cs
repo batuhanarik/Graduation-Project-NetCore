@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
@@ -25,6 +26,7 @@ namespace Business.Concrete
             _categoryService = categoryService;
         }
 
+        [SecuredOperation("weddingplace.add,admin")]
         [ValidationAspect(typeof(WeddingPlaceValidator))]
         public IResult Add(WeddingPlace weddingPlace)
         {
@@ -35,7 +37,7 @@ namespace Business.Concrete
                 return result;
             }
             _weddingPlaceDal.Add(weddingPlace);
-                return new SuccessResult(Messages.WeddingPlaceAdded);
+                return new SuccessResult(Messages.WeddingPlaceDeleted);
         }
 
         public IDataResult<List<WeddingPlace>> GetAll()
@@ -90,6 +92,12 @@ namespace Business.Concrete
                 return new ErrorResult("Kategori Limiti Aşıldı");
             }
             return new SuccessResult();
+        }
+
+        public IResult Delete(WeddingPlace weddingPlace)
+        {
+            _weddingPlaceDal.Delete(weddingPlace);
+            return new SuccessResult(Messages.WeddingPlaceDeleted);
         }
     }
 }
