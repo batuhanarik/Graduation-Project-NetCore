@@ -13,7 +13,7 @@ namespace DataAccess.Concrete.EntityFramework
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=MarryUs;Trusted_Connection=true");
+            optionsBuilder.UseSqlServer(@"Server=.;Database=MarryUs;Trusted_Connection=true");
         }
         public DbSet<WeddingPlace> WeddingPlaces { get; set; }
         public DbSet<WeddingPlaceImage> WeddingPlaceImages { get; set; }
@@ -23,5 +23,6 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<Comment> Comments { get; set; }
         public DbSet<OperationClaim> OperationClaims { get; set; }
         public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
+        public DbSet<City> Cities { get; set; }
     }
 }

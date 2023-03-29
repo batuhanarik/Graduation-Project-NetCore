@@ -13,7 +13,6 @@ namespace Business.ValidationRules.FluentValidation
     {
         public WeddingPlaceValidator()
         {
-            RuleFor(w=>w.PlaceCode).NotEmpty();
 
             RuleFor(w=>w.PlateCode).NotEmpty();
             RuleFor(w=>w.PlateCode).GreaterThan(0);
@@ -44,8 +43,8 @@ namespace Business.ValidationRules.FluentValidation
             RuleFor(w => w.Discount_2).GreaterThanOrEqualTo(0);
             RuleFor(w => w.Discount_3).GreaterThanOrEqualTo(0);
 
-            RuleFor(w => w.isAlcoholIncluded).NotEmpty();
-            RuleFor(w=>w.isFoodIncluded).NotEmpty();
+            //RuleFor(w => w.isAlcoholIncluded).NotEmpty();
+            //RuleFor(w=>w.isFoodIncluded).NotEmpty();
 
             RuleFor(w => w.PlaceStatus).NotEmpty();
 

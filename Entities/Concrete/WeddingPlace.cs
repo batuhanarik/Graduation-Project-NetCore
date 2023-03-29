@@ -9,7 +9,6 @@ namespace Entities.Concrete
     {
         [Key]
         public int WeddingPlaceId { get; set; }
-        public string PlaceCode { get; set; } //Mekan kodu
         public int PlateCode { get; set; } //Şehir kodu : örn : 22 - 39 - 34
         public int CategoryId { get; set; } 
         public string PlaceName { get; set; } //Örn: Edirne Kır Bahçesi

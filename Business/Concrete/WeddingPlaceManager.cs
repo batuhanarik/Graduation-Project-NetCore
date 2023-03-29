@@ -12,7 +12,7 @@ using Entities.DTOs;
 using FluentValidation;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Threading;
 namespace Business.Concrete
 {
     public class WeddingPlaceManager : IWeddingPlaceService
@@ -26,7 +26,7 @@ namespace Business.Concrete
             _categoryService = categoryService;
         }
 
-        [SecuredOperation("weddingplace.add,admin")]
+        [SecuredOperation("add,admin")]
         [ValidationAspect(typeof(WeddingPlaceValidator))]
         public IResult Add(WeddingPlace weddingPlace)
         {
@@ -37,11 +37,12 @@ namespace Business.Concrete
                 return result;
             }
             _weddingPlaceDal.Add(weddingPlace);
-                return new SuccessResult(Messages.WeddingPlaceDeleted);
+                return new SuccessResult(Messages.WeddingPlaceAdded);
         }
 
         public IDataResult<List<WeddingPlace>> GetAll()
         {
+            Thread.Sleep(3000);
             return new SuccessDataResult<List<WeddingPlace>>(_weddingPlaceDal.GetAll(), Messages.WeddingPlacesListed);
         }
 

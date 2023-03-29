@@ -35,6 +35,9 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<WeddingPlaceImageManager>().As<IWeddingPlaceImageService>().SingleInstance();
             builder.RegisterType<EfWeddingPlaceImageDal>().As<IWeddingPlaceImageDal>().SingleInstance();
 
+            builder.RegisterType<CityManager>().As<ICityService>().SingleInstance();
+            builder.RegisterType<EfCityDal>().As<ICityDal>().SingleInstance();
+
             builder.RegisterType<AuthManager>().As<IAuthService>();
             builder.RegisterType<JwtHelper>().As<ITokenHelper>();
 

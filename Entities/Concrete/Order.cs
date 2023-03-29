@@ -16,8 +16,7 @@ namespace Entities.Concrete
         public int WeddingPlaceId { get; set; }
         public DateTime OrderDate { get; set; }
         public DateTime OrganizationDate { get; set; }
-        public short Price { get; set; }
-        public WeddingPlace WeddingPlace { get; set; }
+        public int Price { get; set; }
 
     }
 }

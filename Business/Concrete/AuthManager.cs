@@ -35,6 +35,8 @@ namespace Business.Concrete
                 LastName = userForRegisterDto.LastName,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
+                IsWeddingPlaceOwner = userForRegisterDto.IsWeddingPlaceOwner,
+                PhoneNumber= userForRegisterDto.PhoneNumber,
                 Status = true
             };
             _userService.Add(user);
@@ -48,7 +50,6 @@ namespace Business.Concrete
             {
                 return new ErrorDataResult<User>(Messages.UserNotFound);
             }
-
             if (!HashingHelper.VerifyPasswordHash(userForLoginDto.Password, userToCheck.PasswordHash, userToCheck.PasswordSalt))
             {
                 return new ErrorDataResult<User>(Messages.PasswordError);

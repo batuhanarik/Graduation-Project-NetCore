@@ -21,7 +21,7 @@ namespace API.Controllers
             var userToLogin = _authService.Login(userForLoginDto);
             if (!userToLogin.Success)
             {
-                return BadRequest(userToLogin.Message);
+                return ValidationProblem(userToLogin.Message);
             }
 
             var result = _authService.CreateAccessToken(userToLogin.Data);
@@ -30,7 +30,7 @@ namespace API.Controllers
                 return Ok(result.Data);
             }
 
-            return BadRequest(result.Message);
+            return ValidationProblem(result.Message);
         }
 
         [HttpPost("register")]
