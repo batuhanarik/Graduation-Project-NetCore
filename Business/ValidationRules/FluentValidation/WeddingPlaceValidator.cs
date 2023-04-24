@@ -20,9 +20,6 @@ namespace Business.ValidationRules.FluentValidation
             RuleFor(w => w.PlaceName).NotEmpty();
             RuleFor(w => w.PlaceName).MinimumLength(3);
 
-            RuleFor(w => w.PlateName).NotEmpty();
-            RuleFor(w => w.PlateName).MinimumLength(3);
-
 
             RuleFor(w => w.PhoneNumber).NotEmpty();
             RuleFor(w => w.PhoneNumber).Must(RegExPhoneNumber).WithMessage("Telefon Numarası Doğru Formatta Olmalıdır.");
@@ -39,9 +36,7 @@ namespace Business.ValidationRules.FluentValidation
             RuleFor(w => w.PriceLast).NotEmpty();
             RuleFor(w => w.PriceLast).GreaterThan(0);
 
-            RuleFor(w => w.Discount_1).GreaterThanOrEqualTo(0);
-            RuleFor(w => w.Discount_2).GreaterThanOrEqualTo(0);
-            RuleFor(w => w.Discount_3).GreaterThanOrEqualTo(0);
+            RuleFor(w => w.DiscountRate).GreaterThanOrEqualTo(0);
 
             //RuleFor(w => w.isAlcoholIncluded).NotEmpty();
             //RuleFor(w=>w.isFoodIncluded).NotEmpty();

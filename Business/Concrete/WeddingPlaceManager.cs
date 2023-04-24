@@ -26,7 +26,7 @@ namespace Business.Concrete
             _categoryService = categoryService;
         }
 
-        [SecuredOperation("add,admin")]
+        //[SecuredOperation("add")]
         [ValidationAspect(typeof(WeddingPlaceValidator))]
         public IResult Add(WeddingPlace weddingPlace)
         {
