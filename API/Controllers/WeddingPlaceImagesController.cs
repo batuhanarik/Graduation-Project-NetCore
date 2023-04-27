@@ -50,10 +50,10 @@ namespace API.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost("add")]
-        public IActionResult Add([FromForm(Name = ("Image"))] IFormFile file, [FromForm] WeddingPlaceImage wpImage)
+        [HttpPost("AddMultiple")]
+        public IActionResult Add([FromForm] IFormFile[] images, [FromForm] int weddingPlaceId)
         {
-            var result = _weddingPlaceImageService.Add(wpImage, file);
+            var result = _weddingPlaceImageService.AddMultiple(images, new WeddingPlaceImage { WeddingPlaceId= weddingPlaceId });
             if (result.Success)
             {
                 return Ok(result);

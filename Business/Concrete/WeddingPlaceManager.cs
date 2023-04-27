@@ -26,18 +26,19 @@ namespace Business.Concrete
             _categoryService = categoryService;
         }
 
+        //[CacheRemoveAspect("IWeddingPlaceService.Get")]
         //[SecuredOperation("add")]
         [ValidationAspect(typeof(WeddingPlaceValidator))]
         public IResult Add(WeddingPlace weddingPlace)
         {
-            IResult result =BusinessRules.Run(CheckIfProductCountOfCategoryCorrect(weddingPlace.CategoryId), CheckIfWeddingPlaceNameExist(weddingPlace.PlaceName), CheckIfCategoryLimitExceded());
+            IResult result =BusinessRules.Run(CheckIfWeddingplaceCountOfCategoryCorrect(weddingPlace.CategoryId), CheckIfWeddingPlaceNameExist(weddingPlace.PlaceName), CheckIfCategoryLimitExceded());
 
             if (result!=null)
             {
                 return result;
             }
             _weddingPlaceDal.Add(weddingPlace);
-                return new SuccessResult(Messages.WeddingPlaceAdded);
+                return new SuccessDataResult<int>(weddingPlace.WeddingPlaceId,Messages.WeddingPlaceAdded);
         }
 
         public IDataResult<List<WeddingPlace>> GetAll()
@@ -66,7 +67,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<WeddingPlaceDetailDto>>(_weddingPlaceDal.GetWeddingPlaceDetails());
         }
 
-        private IResult CheckIfProductCountOfCategoryCorrect(int categoryId)
+        private IResult CheckIfWeddingplaceCountOfCategoryCorrect(int categoryId)
         {
             var result = _weddingPlaceDal.GetAll(w => w.CategoryId == categoryId).Count;
             if (result >= 15)

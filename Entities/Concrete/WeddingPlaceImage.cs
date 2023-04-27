@@ -14,6 +14,6 @@ namespace Entities.Concrete
         public int PlacePhotoId { get; set; }
         public int WeddingPlaceId { get; set; }
         public string ImagePath { get; set; }
-         public DateTime Date { get; set; } = DateTime.Now;
+        public DateTime Date { get; set; }
     }
 }

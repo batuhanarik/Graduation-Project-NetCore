@@ -15,12 +15,27 @@ namespace DataAccess.Concrete.EntityFramework
             using (var context = new MarryUsContext())
             {
                 var result = from w in context.WeddingPlaces
-                             join c in context.Categories
+                             join c in context.Categories 
                              on w.CategoryId equals c.CategoryId
-                             select new WeddingPlaceDetailDto 
-                             { 
-                                 WeddingPlaceId=w.WeddingPlaceId,CategoryName=c.CategoryName,
-                                 PriceFirst=w.PriceFirst,PriceLast=w.PriceLast,WeddingPlaceName=w.PlaceName,
+
+                             join city in context.Cities
+                             on w.PlateCode equals city.PlateCode
+                             select new WeddingPlaceDetailDto
+                             {
+                                 WeddingPlaceId = w.WeddingPlaceId,
+                                 CategoryName = c.CategoryName,
+                                 PriceFirst = w.PriceFirst,
+                                 PriceLast = w.PriceLast,
+                                 WeddingPlaceName = w.PlaceName,
+                                 Province=city.PlateName,
+                                 WeddingPlaceImages = context.WeddingPlaceImages.Count(wpI => wpI.WeddingPlaceId == w.WeddingPlaceId) != 0
+                                 ? context.WeddingPlaceImages.Where(wpI => wpI.WeddingPlaceId == w.WeddingPlaceId).ToList()
+                                 : new List<WeddingPlaceImage> { new WeddingPlaceImage {
+                                        WeddingPlaceId = w.WeddingPlaceId,
+                                        ImagePath = "images/default.jpg"
+                                    } }
+
+
                              };
                 return result.ToList();
             }

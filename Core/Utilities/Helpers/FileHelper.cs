@@ -9,90 +9,40 @@ using System.Threading.Tasks;
 
 namespace Core.Utilities.Helpers
 {
-    public class FileHelper
+    public static class FileHelper
     {
-        public static string Add(IFormFile file)
+        public static void Write(IFormFile file, string directory, string fileName)
         {
-            var result = newPath(file);
-            try
+            if (!Directory.Exists(directory))
             {
-                var sourcePath = Path.GetTempFileName();
-                if (file.Length > 0)
-                {
-                    using (var stream = new FileStream(sourcePath, FileMode.Create))
-                    {
-                        file.CopyTo(stream);
-                    }
-                }
-
-                File.Move(sourcePath, result.newPath);
-            }
-            catch (Exception exception)
-            {
-                return exception.Message;
+                Directory.CreateDirectory(directory);
             }
 
-            return result.Path2;
+            using (Stream fileStream = new FileStream(directory + "\\" + fileName, FileMode.Create, FileAccess.Write))
+            {
+                file.CopyTo(fileStream);
+            }
         }
 
-        public static string Update(string sourcePath, IFormFile file)
+        public static void Write(IFormFile file, string fullPath)
         {
-            var result = newPath(file);
-            try
-            {
-                if (file.Length > 0)
-                {
-                    using (var stream = new FileStream(sourcePath, FileMode.Create))
-                    {
-                        file.CopyTo(stream);
-                    }
-                }
-                File.Delete(sourcePath);
-            }
-            catch (Exception exception)
-            {
-                return exception.Message;
-            }
-            return result.Path2;
+            string directory = Path.GetDirectoryName(fullPath);
+            string fileName = Path.GetFileName(fullPath);
+            Write(file, directory, fileName);
         }
 
-        public IResult Delete(string path)
-        {
-            try
-            {
-                File.Delete(path);
-            }
-            catch (Exception exception)
-            {
-                return new ErrorResult(exception.Message);
-            }
 
-            return new SuccessResult();
+        public static void Delete(string path)
+        {
+            File.Delete(path);
         }
 
-        private static (string newPath, string Path2) newPath(IFormFile file)
+        public static Stream GetFileStream(string path)
         {
-            FileInfo fileInfo = new FileInfo(file.FileName);
-            string fileExtansion = fileInfo.Extension;
-
-
-            string path = Environment.CurrentDirectory + @"\wwwroot\";
-            var newPath = Guid.NewGuid().ToString("N") + fileExtansion;
-
-            string result = $@"{path}\{newPath}";
-            return (result, $"\\Images\\{newPath}");
-        }
-
-        private static bool IsValidImage(IFormFile file)
-        {
-            string[] allowedTypes = { "image/jpeg", "image/png", "image/jpg" };
-
-            if (Array.IndexOf(allowedTypes, file.ContentType) < 0)
+            using (Stream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
-                return false;
+                return fileStream;
             }
-
-            return true;
         }
     }
 }

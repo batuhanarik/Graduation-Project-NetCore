@@ -18,5 +18,6 @@ namespace Business.Abstract
         IResult Add(WeddingPlaceImage wpImage, IFormFile file);
         IResult Delete(WeddingPlaceImage wpImage);
         IResult Update(WeddingPlaceImage wpImage, IFormFile file);
+        IResult AddMultiple(IFormFile[] files, WeddingPlaceImage weddingPlaceImage);
     }
 }
