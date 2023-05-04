@@ -25,7 +25,7 @@ namespace Business.ValidationRules.FluentValidation
             RuleFor(w => w.PhoneNumber).Must(RegExPhoneNumber).WithMessage("Telefon Numarası Doğru Formatta Olmalıdır.");
 
             RuleFor(w => w.Description).NotEmpty();
-            RuleFor(w => w.Description).Length(0, 1500);
+            RuleFor(w => w.Description).Length(0, 15000);
 
             RuleFor(w => w.Capacity).NotEmpty();
             RuleFor(w => w.Capacity).GreaterThan(0);

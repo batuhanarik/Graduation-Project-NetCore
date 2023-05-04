@@ -1,6 +1,7 @@
 ﻿using Core.DataAccess;
 using Core.Entities;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,10 @@ namespace DataAccess.Abstract
 {
     public interface IUserDal : IEntityRepository<User>
     {
-        List<OperationClaim> GetClaims(User user);
+        List<OperationClaim> GetUserClaims(int userId);
+        List<UserDto> GetUsers();
+        List<OperationClaim> GetOperationClaims();
+        void AddClaim(UserOperationClaim operationClaim);
+        void DeleteClaim(UserOperationClaim operationClaim);
     }
 }

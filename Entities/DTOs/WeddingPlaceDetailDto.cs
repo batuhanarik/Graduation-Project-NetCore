@@ -8,6 +8,7 @@ namespace Entities.DTOs
     public class WeddingPlaceDetailDto : IDto
     {
         public int WeddingPlaceId { get; set; }
+        public int ProvinceId { get; set; }
         public string WeddingPlaceName { get; set; }
         public string Province { get; set; }
         public string CategoryName { get; set; }

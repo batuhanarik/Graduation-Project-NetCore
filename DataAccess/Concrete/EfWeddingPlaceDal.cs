@@ -2,15 +2,16 @@
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Linq.Expressions;
 
 namespace DataAccess.Concrete.EntityFramework
 {
     public class EfWeddingPlaceDal : EfEntityRepositoryBase<WeddingPlace, MarryUsContext>, IWeddingPlaceDal
     {
-        public List<WeddingPlaceDetailDto> GetWeddingPlaceDetails()
+        public List<WeddingPlaceDetailDto> GetWeddingPlaceDetails(Expression<Func<WeddingPlaceDetailDto, bool>> filter = null)
         {
             using (var context = new MarryUsContext())
             {
@@ -28,6 +29,40 @@ namespace DataAccess.Concrete.EntityFramework
                                  PriceLast = w.PriceLast,
                                  WeddingPlaceName = w.PlaceName,
                                  Province=city.PlateName,
+                                 ProvinceId=city.PlateCode,
+                                 WeddingPlaceImages = context.WeddingPlaceImages.Count(wpI => wpI.WeddingPlaceId == w.WeddingPlaceId) != 0
+                                 ? context.WeddingPlaceImages.Where(wpI => wpI.WeddingPlaceId == w.WeddingPlaceId).ToList()
+                                 : new List<WeddingPlaceImage> { new WeddingPlaceImage {
+                                        WeddingPlaceId = w.WeddingPlaceId,
+                                        ImagePath = "images/default.jpg"
+                                    } }
+
+
+                             };
+                return result.ToList();
+            }
+        }
+
+        public List<WeddingPlaceDetailDto> GetWeddingPlaceDetailsByCity(int id)
+        {
+            using (var context = new MarryUsContext())
+            {
+                var result = from w in context.WeddingPlaces
+                             join c in context.Categories
+                             on w.CategoryId equals c.CategoryId
+
+                             join city in context.Cities
+                             on w.PlateCode equals city.PlateCode
+                             where w.PlateCode == id
+                             select new WeddingPlaceDetailDto
+                             {
+                                 WeddingPlaceId = w.WeddingPlaceId,
+                                 CategoryName = c.CategoryName,
+                                 PriceFirst = w.PriceFirst,
+                                 PriceLast = w.PriceLast,
+                                 WeddingPlaceName = w.PlaceName,
+                                 Province = city.PlateName,
+                                 ProvinceId = city.PlateCode,
                                  WeddingPlaceImages = context.WeddingPlaceImages.Count(wpI => wpI.WeddingPlaceId == w.WeddingPlaceId) != 0
                                  ? context.WeddingPlaceImages.Where(wpI => wpI.WeddingPlaceId == w.WeddingPlaceId).ToList()
                                  : new List<WeddingPlaceImage> { new WeddingPlaceImage {

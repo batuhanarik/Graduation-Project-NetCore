@@ -66,7 +66,13 @@ namespace Business.Concrete
 
         public IResult Delete(WeddingPlaceImage wpImage)
         {
-            throw new NotImplementedException();
+            WeddingPlaceImage willDeleteImage = _weddingPlaceImageDal.Get(wpI => wpI.PlacePhotoId == wpImage.PlacePhotoId);
+            string path =willDeleteImage.ImagePath;
+
+            _weddingPlaceImageDal.Delete(willDeleteImage);
+            FileHelper.Delete(Paths.RootPath+path);
+
+            return new SuccessResult(Messages.WeddingPlaceImageDeleted);
         }
 
         public IDataResult<List<WeddingPlaceImage>> GetAll()
@@ -97,7 +103,7 @@ namespace Business.Concrete
             //wpImage.ImagePath = FileHelper.(_weddingPlaceImageDal.Get(wpI => wpI.PlacePhotoId == wpImage.PlacePhotoId).ImagePath, file);
             wpImage.Date = DateTime.Now;
             _weddingPlaceImageDal.Update(wpImage);
-            return new SuccessResult(Messages.CarImageUpdated);
+            return new SuccessResult(Messages.WeddingPlaceImageUpdated);
         }
         private IResult CheckIfImageLimitExceeded(int weddingPlaceId)
         {

@@ -1,11 +1,16 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Castle.Core.Resource;
 using Core.Aspects.Autofac.Validation;
+using Core.Business;
 using Core.Entities;
 using Core.Utilities.Results;
+using Core.Utilities.Security.Hashing;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,49 +21,129 @@ namespace Business.Concrete
 {
     public class UserManager : IUserService
     {
-        private IUserDal _userDal;
+        IUserDal _userDal;
+        ICustomerService _customerService;
+        private UserDto MessagesUserNotFound;
 
-        public UserManager(IUserDal userDal)
+        public UserManager(IUserDal userDal, ICustomerService customerService)
         {
             _userDal = userDal;
+            _customerService = customerService;
         }
 
-        [ValidationAspect(typeof(UserValidator))]
+        public IDataResult<List<OperationClaim>> GetUserClaims(int userId)
+        {
+            return new SuccessDataResult<List<OperationClaim>>(_userDal.GetUserClaims(userId));
+        }
 
+        [SecuredOperation("admin")]
+        public IDataResult<List<OperationClaim>> GetOperationClaims()
+        {
+            return new SuccessDataResult<List<OperationClaim>>(_userDal.GetOperationClaims());
+
+        }
+
+        [SecuredOperation("admin")]
+        public IResult AddClaim(UserOperationClaim operationClaim)
+        {
+            var businessResult = BusinessRules.Run(
+                    CheckIfAlreadyHaveClaim(operationClaim)
+                );
+            if (businessResult != null)
+            {
+                return businessResult;
+            }
+            _userDal.AddClaim(operationClaim);
+            return new SuccessResult();
+        }
+
+        [SecuredOperation("admin")]
+        public IResult DeleteClaim(UserOperationClaim operationClaim)
+        {
+            _userDal.DeleteClaim(operationClaim);
+            return new SuccessResult();
+        }
+
+
+        //[CacheRemoveAspect("IUserService.Get")]
         public IResult Add(User user)
         {
             _userDal.Add(user);
-            return new SuccessResult(Messages.UserAdded);
+            _customerService.Add(new Customer
+            {
+                Id = user.UserId
+            });
+            return new SuccessResult();
         }
 
-        public IResult Delete(User user)
+        public IResult Update(UserDto user)
         {
-            throw new NotImplementedException();
+            var userToUpdate = GetByMail(user.Email).Data;
+
+            userToUpdate.Name = user.FirstName;
+            userToUpdate.LastName= user.LastName;
+            _userDal.Update(userToUpdate);
+            return new SuccessResult(Messages.InformationUpdated);
         }
 
-        public IDataResult<List<User>> GetAll()
+        [SecuredOperation("admin")]
+        public IDataResult<List<UserDto>> GetUsers()
         {
-            return new SuccessDataResult<List<User>>(_userDal.GetAll(), Messages.UsersListed);
-        }
-
-        public IDataResult<User> GetById(int id)
-        {
-            throw new NotImplementedException();
+            var result = _userDal.GetUsers();
+            return new SuccessDataResult<List<UserDto>>(result);
         }
 
         public IDataResult<User> GetByMail(string email)
         {
-            return new SuccessDataResult<User>(_userDal.Get(u => u.Mail == email));
+            var result = _userDal.Get(u => u.Mail == email);
+            if (result != null)
+            {
+                return new SuccessDataResult<User>(result);
+            }
+            return new ErrorDataResult<User>(Messages.UserNotFound);
         }
 
-        public IDataResult<List<OperationClaim>> GetClaims(User user)
+        public IDataResult<UserDto> GetUser(int id)
         {
-            return new SuccessDataResult<List<OperationClaim>>(_userDal.GetClaims(user));
+            var result = _userDal.Get(u => u.UserId == id);
+            if (result != null)
+            {
+                return new SuccessDataResult<UserDto>(new UserDto
+                {
+                    FirstName = result.Name,
+                    LastName = result.LastName,
+                    Email = result.Mail
+                });
+            }
+            return new ErrorDataResult<UserDto>(Messages.UserNotFound);
         }
 
-        public IResult Update(User user)
+        public IResult ChangePassword(ChangePasswordDto user)
         {
-            throw new NotImplementedException();
+            var userToUpdate = GetByMail(user.Email).Data;
+
+            if (HashingHelper.VerifyPasswordHash(user.OldPassword, userToUpdate.PasswordHash, userToUpdate.PasswordSalt))
+            {
+                byte[] passwordHash, passwordSalt;
+                HashingHelper.CreatePasswordHash(user.NewPassword, out passwordHash, out passwordSalt);
+                userToUpdate.PasswordHash = passwordHash;
+                userToUpdate.PasswordSalt = passwordSalt;
+                _userDal.Update(userToUpdate);
+                return new SuccessResult(Messages.PasswordUpdated);
+            }
+            return new ErrorResult(Messages.PasswordError);
         }
+
+        private IResult CheckIfAlreadyHaveClaim(UserOperationClaim operationClaim)
+        {
+            var claims = GetUserClaims(operationClaim.UserId);
+            if (claims.Data.Any(c => operationClaim.OperationClaimId == c.Id))
+            {
+                return new ErrorResult();
+            }
+            return new SuccessResult();
+        }
+
+
     }
 }

@@ -51,6 +51,10 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<WeddingPlace>>(_weddingPlaceDal.GetAll(w => w.CategoryId == id), Messages.GetAllWeddingPlacesByCategory);
         }
+        public IDataResult<List<WeddingPlaceDetailDto>> GetWeddingPlaceDetailsByCity(int id)
+        {
+            return new SuccessDataResult<List<WeddingPlaceDetailDto>>(_weddingPlaceDal.GetWeddingPlaceDetailsByCity(id), Messages.WeddingPlacesListedByCity);
+        }
 
         public IDataResult<List<WeddingPlace>> GetAllByPriceRange(int minPrice, int maxPrice)
         {
@@ -100,6 +104,12 @@ namespace Business.Concrete
         {
             _weddingPlaceDal.Delete(weddingPlace);
             return new SuccessResult(Messages.WeddingPlaceDeleted);
+        }
+
+        public IResult Update(WeddingPlace weddingPlace)
+        {
+            _weddingPlaceDal.Update(weddingPlace);
+            return new SuccessResult(Messages.WeddingPlaceUpdate);
         }
     }
 }

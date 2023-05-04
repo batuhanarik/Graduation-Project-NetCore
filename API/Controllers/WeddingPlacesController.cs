@@ -38,6 +38,17 @@ namespace API.Controllers
             }
             return BadRequest(result);
         }
+
+        [HttpGet("getdetailsbycity")]
+        public IActionResult GetDetailsByCity(int id)
+        {
+            var result = _weddingPlaceService.GetWeddingPlaceDetailsByCity(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
         {
@@ -58,6 +69,16 @@ namespace API.Controllers
                 return Ok(result);
             }
             return BadRequest(result.Message);
+        }
+        [HttpPost("update")]
+        public IActionResult Update(WeddingPlace weddingPlace)
+        {
+            var result = _weddingPlaceService.Update(weddingPlace);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
         [HttpPost("delete")]
         public IActionResult Delete(WeddingPlace weddingPlace)

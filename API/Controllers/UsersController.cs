@@ -15,16 +15,36 @@ namespace API.Controllers
         {
             _userService = userService;
         }
+        [HttpGet("getuserclaims")]
+        public IActionResult GetUserClaims(int userId)
+        {
+            var result = _userService.GetUserClaims(userId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
 
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            var result = _userService.GetAll();
+            var result = _userService.GetUsers();
             if (result.Success)
             {
                 return Ok(result);
             }
             return BadRequest(result.Message);
+        }
+        [HttpGet("get")]
+        public IActionResult Get(int id)
+        {
+            var result = _userService.GetUser(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
         [HttpPost("add")]

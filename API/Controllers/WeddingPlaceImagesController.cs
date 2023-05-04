@@ -39,8 +39,8 @@ namespace API.Controllers
             }
             return BadRequest(result.Message);
         }
-        [HttpGet("getimagesbywpid")]
-        public IActionResult GetImagesByCarId(int id)
+        [HttpGet("getimagesbyweddingplaceid")]
+        public IActionResult GetImagesByWeddingPlaceId(int id)
         {
             var result = _weddingPlaceImageService.GetImagesByWeddingPlaceId(id);
             if (result.Success)
@@ -66,6 +66,17 @@ namespace API.Controllers
         {
             var carImage = _weddingPlaceImageService.GetById(id).Data;
             var result = _weddingPlaceImageService.Update(carImage, file);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpPost("delete")]
+        public IActionResult Delete(WeddingPlaceImage weddingPlaceImage)
+        {
+            var result = _weddingPlaceImageService.Delete(weddingPlaceImage);
             if (result.Success)
             {
                 return Ok(result);
