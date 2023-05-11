@@ -38,8 +38,8 @@ namespace Business.Constants
         public static string PasswordUpdated = "Şifreniz başarıyla güncellendi.";
         public static string CustomerAdded="Müşteri başarıyla eklendi.";
         public static string CustomerDeleted="Müşteri Silindi";
-        public static string InformationUpdated="Bilgiler Güncellendi.";
-        public static string UserDoesntExists;
+        public static string InformationUpdated="Kullanıcı bilgileriniz güncellendi.";
+        public static string UserDoesntExists="Kullanıcı bulunmuyor.";
         public static string WeddingPlaceImageDeleted="Resim Silindi.";
         public static string WeddingPlaceUpdate="Düğün Yeri Güncellendi.";
     }

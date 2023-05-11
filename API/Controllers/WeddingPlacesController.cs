@@ -60,6 +60,17 @@ namespace API.Controllers
             return BadRequest(result.Message);
         }
 
+        [HttpGet("getdetailbyid")]
+        public IActionResult GetDetailById(int wpId)
+        {
+            var result = _weddingPlaceService.GetWeddingPlaceDetail(wpId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
+
         [HttpPost("add")]
         public IActionResult Add(WeddingPlace weddingPlace)
         {
@@ -82,7 +93,7 @@ namespace API.Controllers
         }
         [HttpPost("delete")]
         public IActionResult Delete(WeddingPlace weddingPlace)
-        {
+        {   
             var result = _weddingPlaceService.Delete(weddingPlace);
             if (result.Success)
             {

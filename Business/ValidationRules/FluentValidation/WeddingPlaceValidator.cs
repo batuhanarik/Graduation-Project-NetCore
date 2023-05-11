@@ -27,14 +27,14 @@ namespace Business.ValidationRules.FluentValidation
             RuleFor(w => w.Description).NotEmpty();
             RuleFor(w => w.Description).Length(0, 15000);
 
-            RuleFor(w => w.Capacity).NotEmpty();
-            RuleFor(w => w.Capacity).GreaterThan(0);
+            RuleFor(w => w.CapacityFirst).NotEmpty();
+            RuleFor(w => w.CapacityLast).GreaterThan(0);
 
-            RuleFor(w => w.PriceFirst).NotEmpty();
-            RuleFor(w => w.PriceFirst).GreaterThan(0);
+            RuleFor(w => w.PriceFirstWeekday).NotEmpty();
+            RuleFor(w => w.PriceFirstWeekday).GreaterThan(0);
 
-            RuleFor(w => w.PriceLast).NotEmpty();
-            RuleFor(w => w.PriceLast).GreaterThan(0);
+            RuleFor(w => w.PriceLastWeekday).NotEmpty();
+            RuleFor(w => w.PriceLastWeekday).GreaterThan(0);
 
             RuleFor(w => w.DiscountRate).GreaterThanOrEqualTo(0);
 

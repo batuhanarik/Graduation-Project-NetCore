@@ -75,9 +75,28 @@ namespace Business.Concrete
             return new SuccessResult(Messages.WeddingPlaceImageDeleted);
         }
 
+        public IResult DeleteByWeddingPlaceId(int wpId)
+        {
+            var result = GetAllByWeddingPlaceId(wpId);
+            if (result.Success)
+            {
+                foreach (var item in result.Data)
+                {
+                    Delete(item);
+                }
+            }
+            return new SuccessResult();
+        }
+
         public IDataResult<List<WeddingPlaceImage>> GetAll()
         {
             return new SuccessDataResult<List<WeddingPlaceImage>>(_weddingPlaceImageDal.GetAll());
+        }
+
+        public IDataResult<List<WeddingPlaceImage>> GetAllByWeddingPlaceId(int wpId)
+        {
+            var images = _weddingPlaceImageDal.GetAll(wpI => wpI.WeddingPlaceId== wpId);
+            return new SuccessDataResult<List<WeddingPlaceImage>>(images);
         }
 
         public IDataResult<WeddingPlaceImage> GetById(int id)

@@ -11,6 +11,7 @@ namespace DataAccess.Abstract
     {
         List<WeddingPlaceDetailDto> GetWeddingPlaceDetails(Expression<Func<WeddingPlaceDetailDto, bool>> filter = null);
         List<WeddingPlaceDetailDto> GetWeddingPlaceDetailsByCity(int id);
+        public WeddingPlaceDetailDto GetWeddingPlaceDetail(int wpId);
 
     }
 }

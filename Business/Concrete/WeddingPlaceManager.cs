@@ -18,12 +18,14 @@ namespace Business.Concrete
     public class WeddingPlaceManager : IWeddingPlaceService
     {
         IWeddingPlaceDal _weddingPlaceDal;
+        IWeddingPlaceImageService _weddingPlaceImageService;
         ICategoryService _categoryService;
 
-        public WeddingPlaceManager(IWeddingPlaceDal weddingPlaceDal, ICategoryService categoryService)
+        public WeddingPlaceManager(IWeddingPlaceDal weddingPlaceDal, ICategoryService categoryService, IWeddingPlaceImageService weddingPlaceImageService)
         {
             _weddingPlaceDal = weddingPlaceDal;
             _categoryService = categoryService;
+            _weddingPlaceImageService = weddingPlaceImageService;
         }
 
         //[CacheRemoveAspect("IWeddingPlaceService.Get")]
@@ -31,14 +33,14 @@ namespace Business.Concrete
         [ValidationAspect(typeof(WeddingPlaceValidator))]
         public IResult Add(WeddingPlace weddingPlace)
         {
-            IResult result =BusinessRules.Run(CheckIfWeddingplaceCountOfCategoryCorrect(weddingPlace.CategoryId), CheckIfWeddingPlaceNameExist(weddingPlace.PlaceName), CheckIfCategoryLimitExceded());
+            IResult result = BusinessRules.Run(CheckIfWeddingplaceCountOfCategoryCorrect(weddingPlace.CategoryId), CheckIfWeddingPlaceNameExist(weddingPlace.PlaceName), CheckIfCategoryLimitExceded());
 
-            if (result!=null)
+            if (result != null)
             {
                 return result;
             }
             _weddingPlaceDal.Add(weddingPlace);
-                return new SuccessDataResult<int>(weddingPlace.WeddingPlaceId,Messages.WeddingPlaceAdded);
+            return new SuccessDataResult<int>(weddingPlace.WeddingPlaceId, Messages.WeddingPlaceAdded);
         }
 
         public IDataResult<List<WeddingPlace>> GetAll()
@@ -58,12 +60,17 @@ namespace Business.Concrete
 
         public IDataResult<List<WeddingPlace>> GetAllByPriceRange(int minPrice, int maxPrice)
         {
-            return new SuccessDataResult<List<WeddingPlace>>(_weddingPlaceDal.GetAll(w => w.PriceFirst >= minPrice && w.PriceLast <= maxPrice));
+            return new SuccessDataResult<List<WeddingPlace>>(_weddingPlaceDal.GetAll(w => w.PriceFirstWeekday >= minPrice && w.PriceLastWeekday <= maxPrice));
         }
 
         public IDataResult<WeddingPlace> GetById(int id)
         {
             return new SuccessDataResult<WeddingPlace>(_weddingPlaceDal.Get(wP => wP.WeddingPlaceId == id));
+        }
+
+        public IDataResult<WeddingPlaceDetailDto> GetWeddingPlaceDetail(int wpId)
+        {
+            return new SuccessDataResult<WeddingPlaceDetailDto>(_weddingPlaceDal.GetWeddingPlaceDetail(wpId));
         }
 
         public IDataResult<List<WeddingPlaceDetailDto>> GetWeddingPlaceDetails()
@@ -93,7 +100,7 @@ namespace Business.Concrete
         private IResult CheckIfCategoryLimitExceded()
         {
             var result = _categoryService.GetAll();
-            if (result.Data.Count>15)
+            if (result.Data.Count > 15)
             {
                 return new ErrorResult("Kategori Limiti Aşıldı");
             }
@@ -102,6 +109,7 @@ namespace Business.Concrete
 
         public IResult Delete(WeddingPlace weddingPlace)
         {
+            _weddingPlaceImageService.DeleteByWeddingPlaceId(weddingPlace.WeddingPlaceId);
             _weddingPlaceDal.Delete(weddingPlace);
             return new SuccessResult(Messages.WeddingPlaceDeleted);
         }
