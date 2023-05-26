@@ -12,6 +12,7 @@ namespace Business.Abstract
         IDataResult<List<WeddingPlace>> GetAllByCategoryId(int id);
         IDataResult<List<WeddingPlace>> GetAllByPriceRange(int minPrice, int maxPrice);
         IDataResult<List<WeddingPlaceDetailDto>> GetWeddingPlaceDetails();
+        IDataResult<List<WeddingPlaceDetailDto>> GetDetailsByFilter(FilterOptions filter);
         IDataResult<List<WeddingPlaceDetailDto>> GetWeddingPlaceDetailsByCity(int id);
         IDataResult<WeddingPlaceDetailDto> GetWeddingPlaceDetail(int wpId);
         IResult Add(WeddingPlace weddingPlace);

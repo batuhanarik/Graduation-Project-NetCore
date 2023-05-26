@@ -30,11 +30,11 @@ namespace Business.ValidationRules.FluentValidation
             RuleFor(w => w.CapacityFirst).NotEmpty();
             RuleFor(w => w.CapacityLast).GreaterThan(0);
 
-            RuleFor(w => w.PriceFirstWeekday).NotEmpty();
-            RuleFor(w => w.PriceFirstWeekday).GreaterThan(0);
+            RuleFor(w => w.PriceWeekday).NotEmpty();
+            RuleFor(w => w.PriceWeekday).GreaterThan(0);
 
-            RuleFor(w => w.PriceLastWeekday).NotEmpty();
-            RuleFor(w => w.PriceLastWeekday).GreaterThan(0);
+            RuleFor(w => w.PriceWeekend).NotEmpty();
+            RuleFor(w => w.PriceWeekend).GreaterThan(0);
 
             RuleFor(w => w.DiscountRate).GreaterThanOrEqualTo(0);
 

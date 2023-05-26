@@ -39,6 +39,7 @@ namespace API
         {
             
             services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
             services.AddCors();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

@@ -15,19 +15,17 @@ namespace Entities.Concrete
         public string Description { get; set; } //Mekan Açıklaması
         public int CapacityFirst { get; set; } //Minimum Kapasitesi
         public int CapacityLast { get; set; } //Minimum Kapasitesi
-        public double PriceFirstWeekday { get; set; }//Fiyat aralığı min.
-        public double PriceLastWeekday { get; set; } //Fiyat aralığı max.
-        public double PriceFirstWeekend { get; set; }//Fiyat aralığı min. haftasonu
-        public double PriceLastWeekend { get; set; } //Fiyat aralığı max. haftasonu
+        public double PriceWeekday { get; set; } //Fiyat aralığı haftaiçi.
+        public double PriceWeekend { get; set; } //Fiyat aralığı haftasonu
         public double PriceAlcohol { get; set; } //Fiyat aralığı max. haftasonu
         public double PriceFood { get; set; } //Fiyat aralığı max. haftasonu
         public double PriceCocktail { get; set; } //Fiyat aralığı max. haftasonu
         public int DiscountRate { get; set; } //İndirim Oranı
         public int PlaceOwnerId { get; set; } //Mekan sahibi user id'si.
-        public bool isReserved { get; set; } //Rezerve edildi mi?
-        public bool isFoodIncluded { get; set; } //Yemekli mi?
-        public bool isAlcoholIncluded { get; set; } //Alkollü mü?
-        public bool isCocktailIncluded { get; set; } //Kokteylli mi?
+        public bool IsReserved { get; set; } //Rezerve edildi mi?
+        public bool IsFoodIncluded { get; set; } //Yemekli mi?
+        public bool IsAlcoholIncluded { get; set; } //Alkollü mü?
+        public bool IsCocktailIncluded { get; set; } //Kokteylli mi?
         public bool HasAfterPartyArea { get; set; } //After parti alanı var mı?
         public bool HasMenuTasting { get; set; } //Menü tatma var mı?
         public bool HasSoundLightandStageService { get; set; } //Işık, ses ve sahne hizmeti var mı?

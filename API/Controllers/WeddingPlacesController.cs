@@ -71,6 +71,17 @@ namespace API.Controllers
             return BadRequest(result.Message);
         }
 
+        [HttpPost("getdetailsbyfilter")]
+        public IActionResult GetDetailsByFilter(FilterOptions filter)
+        {
+            var result = _weddingPlaceService.GetDetailsByFilter(filter);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
         [HttpPost("add")]
         public IActionResult Add(WeddingPlace weddingPlace)
         {

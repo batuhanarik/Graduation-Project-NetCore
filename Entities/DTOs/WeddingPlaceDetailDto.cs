@@ -9,17 +9,21 @@ namespace Entities.DTOs
     {
         public int WeddingPlaceId { get; set; }
         public int CategoryId { get; set; }
-        public int ProvinceId { get; set; }
+        public int PlateCode { get; set; }
         public string WeddingPlaceName { get; set; }
         public string ProvinceName { get; set; }
         public string CategoryName { get; set; }
         public string Description { get; set; }
-        public string Address
-        { get; set; }
-        public double PriceFirstWeekday { get; set; }
-        public double PriceLastWeekday { get; set; }
-        public double PriceFirstWeekend { get; set; }
-        public double PriceLastWeekend { get; set; }
+        public string Address { get; set; }
+        public string PhoneNumber { get; set; }
+        public string AuthorizedPersonName { get; set; }
+
+        public double PriceWeekday { get; set; }
+        public double PriceWeekend { get; set; }
+        public double PriceAlcohol { get; set; } 
+        public double PriceFood { get; set; } 
+        public double PriceCocktail { get; set; }
+
         public int DiscountRate { get; set; }
         public int CapacityFirst { get; set; }
         public int CapacityLast { get; set; }

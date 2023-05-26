@@ -60,7 +60,7 @@ namespace Business.Concrete
 
         public IDataResult<List<WeddingPlace>> GetAllByPriceRange(int minPrice, int maxPrice)
         {
-            return new SuccessDataResult<List<WeddingPlace>>(_weddingPlaceDal.GetAll(w => w.PriceFirstWeekday >= minPrice && w.PriceLastWeekday <= maxPrice));
+            return new SuccessDataResult<List<WeddingPlace>>(_weddingPlaceDal.GetAll(w => w.PriceWeekday >= minPrice && w.PriceWeekday <= maxPrice));
         }
 
         public IDataResult<WeddingPlace> GetById(int id)
@@ -86,6 +86,26 @@ namespace Business.Concrete
                 return new ErrorResult("Bu kategoride en fazla 15 düğün yeri eklenebilir.");
             }
             return new SuccessResult();
+        }
+        public IDataResult<List<WeddingPlaceDetailDto>> GetDetailsByFilter(FilterOptions filter)
+        {
+            return new SuccessDataResult<List<WeddingPlaceDetailDto>>(_weddingPlaceDal.GetWeddingPlaceDetails(wp =>
+                    (filter.CategoryId == null || filter.CategoryId == wp.CategoryId) &&
+                    (filter.PlateCode == null || filter.PlateCode == wp.ProvinceId) &&
+                    (filter.MinPriceWeekday == null || filter.MinPriceWeekday <= wp.PriceWeekday) &&
+                    (filter.MinPriceWeekend == null || filter.MinPriceWeekend <= wp.PriceWeekend) &&
+                    (filter.MaxPriceWeekday == null || filter.MaxPriceWeekday >= wp.PriceWeekday) &&
+                    (filter.MaxPriceWeekend == null || filter.MaxPriceWeekend >= wp.PriceWeekend) &&
+                    (filter.IsCocktailIncluded == null || filter.IsCocktailIncluded == wp.IsCocktailIncluded) &&
+                    (filter.IsFoodIncluded == null || filter.IsFoodIncluded == wp.IsFoodIncluded) &&
+                    (filter.IsAlcoholIncluded == null || filter.IsAlcoholIncluded == wp.IsAlcoholIncluded) &&
+                    (filter.HasValetService == null || filter.HasValetService == wp.HasValetService) &&
+                    (filter.HasHandicapEntrance == null || filter.HasHandicapEntrance == wp.HasHandicapEntrance) &&
+                    (filter.HasAnyMeasureAgainstAdverseWeatherConditions == null || filter.HasAnyMeasureAgainstAdverseWeatherConditions == wp.HasAnyMeasureAgainstAdverseWeatherConditions) &&
+                    (filter.HasPrepRoom == null || filter.HasPrepRoom == wp.HasPrepRoom) &&
+                    (filter.HasMenuTasting == null || filter.HasMenuTasting == wp.HasMenuTasting) &&
+                    (filter.PlaceName == null || filter.PlaceName.ToLower().Contains(wp.WeddingPlaceName.ToLower())
+                )));
         }
         private IResult CheckIfWeddingPlaceNameExist(string weddingPlaceName)
         {
