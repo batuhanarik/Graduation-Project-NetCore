@@ -13,6 +13,7 @@ namespace DataAccess.Concrete.EntityFramework
     {
         public List<WeddingPlaceDetailDto> GetWeddingPlaceDetails(Expression<Func<WeddingPlaceDetailDto, bool>> filter = null)
         {
+            //System.Threading.Thread.Sleep(300000);
             using (var context = new MarryUsContext())
             {
                 var result = from w in context.WeddingPlaces
@@ -60,7 +61,9 @@ namespace DataAccess.Concrete.EntityFramework
 
 
                              };
-                return result.ToList();
+                return filter == null
+                    ? result.ToList()
+                    : result.Where(filter).ToList();
             }
         }
 

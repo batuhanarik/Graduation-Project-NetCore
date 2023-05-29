@@ -10,6 +10,7 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
 using FluentValidation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -89,9 +90,10 @@ namespace Business.Concrete
         }
         public IDataResult<List<WeddingPlaceDetailDto>> GetDetailsByFilter(FilterOptions filter)
         {
+            Console.WriteLine(filter);
             return new SuccessDataResult<List<WeddingPlaceDetailDto>>(_weddingPlaceDal.GetWeddingPlaceDetails(wp =>
                     (filter.CategoryId == null || filter.CategoryId == wp.CategoryId) &&
-                    (filter.PlateCode == null || filter.PlateCode == wp.ProvinceId) &&
+                    (filter.PlateCode == null || filter.PlateCode == wp.PlateCode) &&
                     (filter.MinPriceWeekday == null || filter.MinPriceWeekday <= wp.PriceWeekday) &&
                     (filter.MinPriceWeekend == null || filter.MinPriceWeekend <= wp.PriceWeekend) &&
                     (filter.MaxPriceWeekday == null || filter.MaxPriceWeekday >= wp.PriceWeekday) &&

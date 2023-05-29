@@ -104,7 +104,7 @@ namespace Business.Concrete
             if (wpImage.Count == 0)
             {
                 List<WeddingPlaceImage> weddingPlaceImages = new List<WeddingPlaceImage>();
-                weddingPlaceImages.Add(new WeddingPlaceImage { WeddingPlaceId = weddingPlaceId, ImagePath = @"\Images\noimage.png", Date = DateTime.Now });
+                weddingPlaceImages.Add(new WeddingPlaceImage { WeddingPlaceId = weddingPlaceId, ImagePath = @"noimage.jpg", Date = DateTime.Now });
                 return new SuccessDataResult<List<WeddingPlaceImage>>(weddingPlaceImages);
             }
             return new SuccessDataResult<List<WeddingPlaceImage>>(_weddingPlaceImageDal.GetAll(wpI => wpI.WeddingPlaceId == weddingPlaceId));
@@ -121,7 +121,7 @@ namespace Business.Concrete
         private IResult CheckIfImageLimitExceeded(int weddingPlaceId)
         {
             var wpImageCount = _weddingPlaceImageDal.GetAll(wp => wp.WeddingPlaceId == weddingPlaceId).Count;
-            if (wpImageCount >= 5)
+            if (wpImageCount >= 20)
             {
                 return new ErrorResult(Messages.CarImageLimitExceeded);
             }
