@@ -47,6 +47,9 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<EfRentalDal>().As<IRentalDal>().SingleInstance();
 
             builder.RegisterType<PaymentManager>().As<IPaymentService>().SingleInstance();
+            
+            builder.RegisterType<InvoiceManager>().As<IInvoiceService>().SingleInstance();
+            builder.RegisterType<EfInvoiceDal>().As<IInvoiceDal>().SingleInstance();
 
             builder.RegisterType<AuthManager>().As<IAuthService>();
             builder.RegisterType<JwtHelper>().As<ITokenHelper>();

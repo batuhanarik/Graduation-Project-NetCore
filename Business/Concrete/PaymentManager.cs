@@ -14,7 +14,7 @@ namespace Business.Concrete
     {
         public IResult Pay(CreditCard card, int amount)
         {
-            var balance = new Random().Next(500, 5000);
+            var balance = new Random().Next(50000, 150000);
             if (balance < amount)
             {
                 return new ErrorResult(Messages.BalanceInsufficent);

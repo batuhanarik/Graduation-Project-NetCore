@@ -43,7 +43,7 @@ namespace Business.Constants
         public static string WeddingPlaceImageDeleted="Resim Silindi.";
         public static string WeddingPlaceUpdate="Düğün Yeri Güncellendi.";
         public static string BalanceInsufficent="Bakiye yetersiz.";
-        public static string WeddingPlaceRented = "Düğün yeriniz başarıyla kiralandı.";
+        public static string WeddingPlaceRented = "Düğün yeriniz başarıyla kiralandı, faturanız mail adresinize en kısa sürede gönderilecektir.";
         public static string WeddingPlaceAlreadyRented = "Düğün yeri zaten kiralanmış.";
         
     }

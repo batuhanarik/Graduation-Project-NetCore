@@ -12,18 +12,20 @@ using System.Linq;
 
 namespace Business.Concrete
 {
-    public class RentalManager
+    public class RentalManager : IRentalService
     {
         IRentalDal _rentalDal;
         IWeddingPlaceService _weddingPlaceService;
         IPaymentService _paymentService;
         ICustomerService _customerService;
-        public RentalManager(IRentalDal rentalDal, IPaymentService paymentService, IWeddingPlaceService wpService, ICustomerService customerService)
+        IInvoiceService _invoiceService;
+        public RentalManager(IRentalDal rentalDal, IPaymentService paymentService, IWeddingPlaceService wpService, ICustomerService customerService, IInvoiceService invoiceService)
         {
             _rentalDal = rentalDal;
             _paymentService = paymentService;
             _weddingPlaceService = wpService;
             _customerService = customerService;
+            _invoiceService = invoiceService;
         }
         //[CacheRemoveAspect("IRentalService.Get")]
         public IResult Add(Rental rental, CreditCard card)
@@ -40,6 +42,8 @@ namespace Business.Concrete
             var cocktailPrice = weddingPlace.IsCocktailIncluded ? weddingPlace.PriceCocktail : 0;
             var alcoholPrice = weddingPlace.IsAlcoholIncluded ? weddingPlace.PriceAlcohol : 0;
             var foodPrice = weddingPlace.IsFoodIncluded ? weddingPlace.PriceFood : 0;
+            rental.RentDate = rental.RentDate.AddHours(3);
+            rental.ReturnDate = rental.RentDate;
             var rentalDateDay = rental.RentDate.DayOfWeek;
             var rentalPrice = (rentalDateDay == DayOfWeek.Saturday) || (rentalDateDay == DayOfWeek.Sunday) ? weddingPlace.PriceWeekend
                    : weddingPlace.PriceWeekday;
@@ -52,7 +56,12 @@ namespace Business.Concrete
                 return paymentResult;
             }
 
+            var invoice = new InvoiceDto();
+            invoice.OrderId = 1;
+            invoice.Email = "batuhanarik123@gmail.com";
             _rentalDal.Add(rental);
+            //_invoiceService.SendInvoice(invoice);
+
             return new SuccessResult(Messages.WeddingPlaceRented);
         }
 
@@ -79,7 +88,6 @@ namespace Business.Concrete
 
         public IDataResult<List<DateTime>> GetOccupiedDates(int wpId)
         {
-            //Bunun Algoritması Hatalı Olabilir.
             List<DateTime> occupiedDates = new();
 
             DateTime date = DateTime.Today;
@@ -87,21 +95,23 @@ namespace Business.Concrete
 
             var rentals = _rentalDal.GetAll(r =>
                 r.WeddingPlaceId == wpId &&
-                r.RentDate < DateTime.Today
+                r.RentDate >= DateTime.Today
             );
+            if(rentals.Count >0) {
 
-            for (; date < lastDate; date = date.AddDays(1))
-            {
-                foreach (var rental in rentals)
+                for (; date < lastDate; date = date.AddDays(1))
                 {
-                    if (date >= rental.RentDate)
+                    foreach (var rental in rentals)
                     {
-                        occupiedDates.Add(date);
-                        break;
-
+                        if (date.Month == rental.RentDate.Month && date.Day == rental.RentDate.Day)
+                        {
+                            occupiedDates.Add(date);
+                            break;
+                        }
                     }
                 }
             }
+
             return new SuccessDataResult<List<DateTime>>(occupiedDates);
 
         }
@@ -125,8 +135,9 @@ namespace Business.Concrete
 
         private IResult CheckIfWeddingPlaceRented(Rental rental)
         {
-            var isOccupied = _rentalDal.GetAll(r => r.WeddingPlaceId == rental.WeddingPlaceId &&
-                r.RentDate == rental.RentDate// Finds the rentals which are rented before requests return date. Which means it occupies requests rent interval
+            var isOccupied = _rentalDal.GetAll(r => r.WeddingPlaceId == rental.WeddingPlaceId&&
+                r.ReturnDate >= rental.RentDate && 
+                r.RentDate <= rental.ReturnDate 
             ).Any();
             if (isOccupied)
             {
