@@ -82,6 +82,16 @@ namespace API.Controllers
             return BadRequest(result);
         }
 
+        [HttpGet("getwpstats")]
+        public IActionResult GetCarStats(int wpId)
+        {
+            var result = _weddingPlaceService.GetWeddingPlaceStats(wpId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
         [HttpPost("add")]
         public IActionResult Add(WeddingPlace weddingPlace)
         {

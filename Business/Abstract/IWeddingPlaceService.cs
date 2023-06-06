@@ -18,5 +18,7 @@ namespace Business.Abstract
         IResult Add(WeddingPlace weddingPlace);
         IResult Update(WeddingPlace weddingPlace);
         IResult Delete(WeddingPlace weddingPlace);
+        IDataResult<WeddingPlaceStatsDto> GetWeddingPlaceStats(int id);
+
     }
 }

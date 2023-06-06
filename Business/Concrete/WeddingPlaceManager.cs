@@ -141,5 +141,10 @@ namespace Business.Concrete
             _weddingPlaceDal.Update(weddingPlace);
             return new SuccessResult(Messages.WeddingPlaceUpdate);
         }
+
+        public IDataResult<WeddingPlaceStatsDto> GetWeddingPlaceStats(int wpId)
+        {
+            return new SuccessDataResult<WeddingPlaceStatsDto>(_weddingPlaceDal.GetWeddingPlaceStats(wpId));
+        }
     }
 }

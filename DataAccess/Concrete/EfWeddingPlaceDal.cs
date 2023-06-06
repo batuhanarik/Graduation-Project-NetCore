@@ -139,6 +139,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  PriceCocktail = wp.PriceCocktail,
                                  PriceFood = wp.PriceFood,
                                  WeddingPlaceImages = context.WeddingPlaceImages.Where(wpi => wpi.WeddingPlaceId == wp.WeddingPlaceId).ToList()
+                                
                              };
                 var wpDetail = result.FirstOrDefault();
                 if (wpDetail.WeddingPlaceImages.Count == 0)
@@ -148,6 +149,26 @@ namespace DataAccess.Concrete.EntityFramework
                     } };
                 return wpDetail;
             }
+        }
+
+        public WeddingPlaceStatsDto GetWeddingPlaceStats(int wpId)
+        {
+            using MarryUsContext context = new MarryUsContext();
+            int totalIncome = 0;
+            var result = from ren in context.Rentals
+                         where ren.WeddingPlaceId == wpId
+                         select ren;
+            foreach (var ren in result)
+            {
+                totalIncome += ren.TotalPrice;
+            }
+            return new WeddingPlaceStatsDto
+            {
+                Id = wpId,
+                TotalIncome = totalIncome,
+                TotalRentals = result.Count()
+            };
+
         }
     }
 }

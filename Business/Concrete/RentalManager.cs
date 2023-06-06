@@ -65,7 +65,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.WeddingPlaceRented);
         }
 
-        [SecuredOperation("admin")]
+        //[SecuredOperation("admin")]
         //[CacheRemoveAspect("IRentalService.Get")]
         public IResult Delete(Rental rental)
         {
@@ -79,7 +79,7 @@ namespace Business.Concrete
             return new SuccessDataResult<Rental>(_rentalDal.Get(u => u.Id == userId));
         }
 
-        [SecuredOperation("admin")]
+        //[SecuredOperation("admin")]
         //[CacheAspect(10)]
         public IDataResult<List<Rental>> GetAll()
         {
@@ -117,13 +117,13 @@ namespace Business.Concrete
         }
 
         //[CacheAspect(10)]
-        [SecuredOperation("admin")]
+        //[SecuredOperation("admin")]
         public IDataResult<List<RentalDetailDto>> GetDetails()
         {
             return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails().OrderByDescending(r => r.RentDate).ToList());
         }
 
-        [SecuredOperation("admin")]
+        //[SecuredOperation("admin")]
         //[CacheRemoveAspect("IRentalService.Get")]
         public IResult Update(Rental rental)
         {

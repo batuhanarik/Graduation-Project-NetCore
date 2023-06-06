@@ -30,7 +30,8 @@ namespace DataAccess.Concrete
                                  PlateName= city.PlateName,
                                  CustomerName = user.Name + " " + user.LastName,
                                  RentDate = rental.RentDate,
-                                 ReturnDate = rental.ReturnDate
+                                 ReturnDate = rental.ReturnDate,
+                                 RentPrice = rental.TotalPrice
                              };
                 return result.ToList();
             }

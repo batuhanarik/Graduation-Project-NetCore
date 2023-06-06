@@ -9,6 +9,7 @@ namespace Entities.DTOs
     public class RentalDetailDto
     {
         public int Id { get; set; }
+        public int RentPrice { get; set; }
         public string PlaceName { get; set; }
         public string PlateName { get; set; }
         public string CategoryName { get; set; }
