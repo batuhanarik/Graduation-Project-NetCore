@@ -160,7 +160,7 @@ namespace DataAccess.Concrete.EntityFramework
                          select ren;
             foreach (var ren in result)
             {
-                totalIncome += ren.TotalPrice;
+                totalIncome += ren.PaidAmount;
             }
             return new WeddingPlaceStatsDto
             {

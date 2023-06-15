@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -80,6 +81,24 @@ namespace WebAPI.Controllers {
                 return Ok(result);
             }
             return BadRequest(result);
+        }
+
+        [HttpPost("receive-pdf")]
+        public IActionResult ReceivePdf(IFormFile pdfFile)
+        {
+            if (pdfFile != null && pdfFile.Length > 0)
+            {
+                // PDF'i kaydetme işlemini gerçekleştirin
+                var filePath = Path.Combine("pdf-files", pdfFile.FileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    pdfFile.CopyTo(stream);
+                }
+
+                return Ok();
+            }
+
+            return BadRequest("PDF dosyası bulunamadı.");
         }
     }
 }

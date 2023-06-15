@@ -11,11 +11,10 @@ namespace Entities.Concrete
     {
         public int Id { get; set; }
         public int WeddingPlaceId { get; set; }
-        public int CategoryId { get; set; }
         public int CustomerId { get; set; }
         public DateTime RentDate { get; set; }
         public DateTime ReturnDate { get; set; }
-        public int TotalPrice { get; set; }
+        public int PaidAmount { get; set; }
         public int TotalDiscount { get; set; }
     }
 }

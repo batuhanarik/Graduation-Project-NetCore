@@ -39,18 +39,10 @@ namespace Business.Concrete
             }
             var weddingPlace =
                 _weddingPlaceService.GetById(rental.WeddingPlaceId).Data;
-            var cocktailPrice = weddingPlace.IsCocktailIncluded ? weddingPlace.PriceCocktail : 0;
-            var alcoholPrice = weddingPlace.IsAlcoholIncluded ? weddingPlace.PriceAlcohol : 0;
-            var foodPrice = weddingPlace.IsFoodIncluded ? weddingPlace.PriceFood : 0;
-            rental.RentDate = rental.RentDate.AddHours(3);
-            rental.ReturnDate = rental.RentDate;
             var rentalDateDay = rental.RentDate.DayOfWeek;
-            var rentalPrice = (rentalDateDay == DayOfWeek.Saturday) || (rentalDateDay == DayOfWeek.Sunday) ? weddingPlace.PriceWeekend
-                   : weddingPlace.PriceWeekday;
 
-            rental.TotalPrice = (int)(cocktailPrice + alcoholPrice + foodPrice + rentalPrice);
 
-            var paymentResult = _paymentService.Pay(card, rental.TotalPrice);
+            var paymentResult = _paymentService.Pay(card, rental.PaidAmount);
             if (!paymentResult.Success)
             {
                 return paymentResult;
@@ -60,7 +52,8 @@ namespace Business.Concrete
             invoice.OrderId = 1;
             invoice.Email = "batuhanarik123@gmail.com";
             _rentalDal.Add(rental);
-            //_invoiceService.SendInvoice(invoice);
+
+
 
             return new SuccessResult(Messages.WeddingPlaceRented);
         }

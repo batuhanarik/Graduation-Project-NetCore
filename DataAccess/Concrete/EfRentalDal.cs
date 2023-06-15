@@ -21,7 +21,7 @@ namespace DataAccess.Concrete
                              join wp in context.WeddingPlaces on rental.WeddingPlaceId equals wp.WeddingPlaceId
                              join city in context.Cities on wp.PlateCode equals city.PlateCode
                              join user in context.Users on rental.CustomerId equals user.UserId
-                             join category in context.Categories on rental.CategoryId equals category.CategoryId
+                             join category in context.Categories on wp.CategoryId equals category.CategoryId
                              select new RentalDetailDto
                              {
                                  Id = rental.Id,
@@ -31,7 +31,7 @@ namespace DataAccess.Concrete
                                  CustomerName = user.Name + " " + user.LastName,
                                  RentDate = rental.RentDate,
                                  ReturnDate = rental.ReturnDate,
-                                 RentPrice = rental.TotalPrice
+                                 RentPrice = rental.PaidAmount
                              };
                 return result.ToList();
             }

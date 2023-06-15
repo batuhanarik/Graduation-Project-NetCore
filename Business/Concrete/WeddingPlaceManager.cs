@@ -46,7 +46,7 @@ namespace Business.Concrete
 
         public IDataResult<List<WeddingPlace>> GetAll()
         {
-            Thread.Sleep(3000);
+            //Thread.Sleep(300000);
             return new SuccessDataResult<List<WeddingPlace>>(_weddingPlaceDal.GetAll(), Messages.WeddingPlacesListed);
         }
 
@@ -90,7 +90,7 @@ namespace Business.Concrete
         }
         public IDataResult<List<WeddingPlaceDetailDto>> GetDetailsByFilter(FilterOptions filter)
         {
-            Console.WriteLine(filter);
+            //Thread.Sleep(300000);
             return new SuccessDataResult<List<WeddingPlaceDetailDto>>(_weddingPlaceDal.GetWeddingPlaceDetails(wp =>
                     (filter.CategoryId == null || filter.CategoryId == wp.CategoryId) &&
                     (filter.PlateCode == null || filter.PlateCode == wp.PlateCode) &&
@@ -106,7 +106,7 @@ namespace Business.Concrete
                     (filter.HasAnyMeasureAgainstAdverseWeatherConditions == null || filter.HasAnyMeasureAgainstAdverseWeatherConditions == wp.HasAnyMeasureAgainstAdverseWeatherConditions) &&
                     (filter.HasPrepRoom == null || filter.HasPrepRoom == wp.HasPrepRoom) &&
                     (filter.HasMenuTasting == null || filter.HasMenuTasting == wp.HasMenuTasting) &&
-                    (filter.PlaceName == null || filter.PlaceName.ToLower().Contains(wp.WeddingPlaceName.ToLower())
+                    (filter.PlaceName == null ||wp.WeddingPlaceName.Contains(filter.PlaceName.ToLower())
                 )));
         }
         private IResult CheckIfWeddingPlaceNameExist(string weddingPlaceName)
