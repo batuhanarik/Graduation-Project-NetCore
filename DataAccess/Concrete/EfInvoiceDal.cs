@@ -32,7 +32,7 @@ namespace DataAccess.Concrete
                
                 // E-posta gönderme işlemleri
                 string senderEmail = "batuhan3248@hotmail.com";
-                string senderPassword = "159951753357";
+                string senderPassword = "xxxxxxxxxx";
                 string recipientEmail = "batuhanarik123@gmail.com";
                 string subject = "Test E-postası";
                 string body = "<table>\r\n  <tr>\r\n    <th>Company</th>\r\n    <th>Contact</th>\r\n    <th>Country</th>\r\n  </tr>\r\n  <tr>\r\n    <td>Alfreds Futterkiste</td>\r\n    <td>Maria Anders</td>\r\n    <td>Germany</td>\r\n  </tr>\r\n  <tr>\r\n    <td>Centro comercial Moctezuma</td>\r\n    <td>Francisco Chang</td>\r\n    <td>Mexico</td>\r\n  </tr>\r\n  <tr>\r\n    <td>Ernst Handel</td>\r\n    <td>Roland Mendel</td>\r\n    <td>Austria</td>\r\n  </tr>\r\n  <tr>\r\n    <td>Island Trading</td>\r\n    <td>Helen Bennett</td>\r\n    <td>UK</td>\r\n  </tr>\r\n  <tr>\r\n    <td>Laughing Bacchus Winecellars</td>\r\n    <td>Yoshi Tannamuri</td>\r\n    <td>Canada</td>\r\n  </tr>\r\n  <tr>\r\n    <td>Magazzini Alimentari Riuniti</td>\r\n    <td>Giovanni Rovelli</td>\r\n    <td>Italy</td>\r\n  </tr>\r\n</table>";
